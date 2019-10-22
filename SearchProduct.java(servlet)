@@ -1,0 +1,57 @@
+package com.virtusa.servlets;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.virtusa.daos.ProductDAO;
+import com.virtusa.entity.ProductDetails;
+
+/**
+ * Servlet implementation class SearchProduct
+ */
+@WebServlet("/SearchProduct")
+public class SearchProduct extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ProductDAO dao = new ProductDAO();
+		ProductDetails product = new ProductDetails();
+		product=dao.searchProductNameDetails(request.getParameter("productName"));
+		PrintWriter out=response.getWriter();
+	
+		if(product!=null)
+		{
+			out.println("productName"+product.getProductName()+"<br>");
+			out.println("productPrice"+product.getProductPrice()+"<br>");
+			out.println("productImage"+product.getProductImage()+"<br>");
+			out.println("productDescriptiion"+product.getProductDescription()+"<br>");
+			out.println("productStock"+product.getProductStock()+"<br>");	
+		} else
+		{
+			out.println("product not found");
+		}
+		RequestDispatcher disp = request.getRequestDispatcher("SearchProduct.jsp");
+		
+	    disp.include(request, response);
+	}
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+}
