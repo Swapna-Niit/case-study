@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="TransServlet" method="get">
+<center>
+<table>
+<tr>
+<td>CARD NUMBER</td>
+<td>:</td>
+<td><input type="number" name="cd" pattern="[0-9]{13,16}"  max="999999999999999" required="required"></td>
+</tr>
+<tr>
+<td>CVV</td>
+<td>:</td>
+<td><input type="number" name="cv" max="999" min="-999" required="required" ></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><input type="submit" value="PayBill"/></td>
+</tr>
+</table>
+</center>
+</form>
+</body>
+</html>
