@@ -1,0 +1,70 @@
+CREATE TABLE `admins` (
+  `username` varchar(45) NOT NULL,
+  `password` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+===========================================================================================
+
+CREATE TABLE `books` (
+  `bookId` int(11) NOT NULL,
+  `bookName` varchar(45) DEFAULT NULL,
+  `bookPrice` double DEFAULT NULL,
+  `bookDescription` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`bookId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+===========================================================================================
+
+CREATE TABLE `customers` (
+  `customerId` int(11) DEFAULT NULL,
+  `customerName` varchar(45) DEFAULT NULL,
+  `customerEmail` varchar(45) NOT NULL,
+  `customerPassword` varchar(45) DEFAULT NULL,
+  `customerDOB` date DEFAULT NULL,
+  `customerAddress` varchar(45) DEFAULT NULL,
+  `customerContact` mediumtext,
+  `customerState` varchar(45) DEFAULT NULL,
+  `customerCity` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`customerEmail`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+=========================================================================================
+
+CREATE TABLE `gifts` (
+  `giftId` int(11) NOT NULL,
+  `giftName` varchar(45) DEFAULT NULL,
+  `giftPrice` double DEFAULT NULL,
+  `giftDescription` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`giftId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+=========================================================================================
+
+CREATE TABLE `orders` (
+  `OrderId` int(11) DEFAULT NULL,
+  `productId` varchar(30) DEFAULT NULL,
+  `QtyOrd` int(11) DEFAULT NULL,
+  `billAmt` decimal(9,2) DEFAULT NULL,
+  `customerId` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+===========================================================================
+
+CREATE TABLE `product` (
+  `productId` int(11) NOT NULL,
+  `productName` varchar(45) DEFAULT NULL,
+  `productPrice` double DEFAULT NULL,
+  `productImage` varchar(45) DEFAULT NULL,
+  `productDescription` varchar(45) DEFAULT NULL,
+  `productStock` int(11) DEFAULT NULL,
+  PRIMARY KEY (`productId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+==============================================================================
+
+CREATE TABLE `transactions` (
+  `TransactionId` int(11) DEFAULT NULL,
+  `OrderTotalAmount` double DEFAULT NULL,
+  `transactionDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` varchar(45) DEFAULT 'inactive'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
