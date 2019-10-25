@@ -33,5 +33,4 @@ if(password!=null && rpassword!=null){
 }
 %>
 </body>
-</body>
 </html>
