@@ -1,1 +1,108 @@
+package com.virtusa.servlets;
 
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import com.virtusa.DaoConnection.DaoConnection;
+
+/**
+ * Servlet implementation class Login111
+ */
+@WebServlet("/Login111")
+public class Login111 extends HttpServlet {
+private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+/**
+* @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+*/
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+// TODO Auto-generated method stub
+response.getWriter().append("Served at: ").append(request.getContextPath());
+}
+
+/**
+* @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+*/
+protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+{
+int cnt=0;
+response.setContentType("text/html");
+PrintWriter out = response.getWriter();
+String username =request.getParameter("username");
+HttpSession session=request.getSession(true);
+session.setAttribute("username", username);
+String password = request.getParameter("pass");
+ServletContext sct =getServletContext();
+String usertype= request.getParameter("usertype");
+// CustomerDetails cd = new CustomerDetails();
+try
+{
+if(usertype.equals("customer"))
+{
+Connection cp = DaoConnection.getConnection();
+String sql= "select count(*) cnt from customers where customerEmail=? AND customerPassword=?";
+PreparedStatement ps = cp.prepareStatement(sql);
+ps.setString(1,  username);
+ps.setString(2, password);
+ResultSet rs =ps.executeQuery();
+while(rs.next())
+{
+cnt = rs.getInt("cnt");
+}
+if(cnt==1)
+{
+sct.setAttribute("username", username);
+RequestDispatcher disp = sct.getRequestDispatcher("/UserAccount");
+disp.forward(request, response);
+} else
+{
+out.write("sorry!.... username or password are incorrect");
+out.write("again insert the username and password");
+out.println("incorrect credentials");
+}
+}
+else if(usertype.equals("admin"))
+{
+Connection cp = DaoConnection.getConnection();
+String sql= "select count(*) cnt from admins where username=? AND password=?";
+PreparedStatement ps = cp.prepareStatement(sql);
+ps.setString(1, username);
+ps.setString(2, password);
+ResultSet rs =ps.executeQuery();
+while(rs.next()){
+cnt = rs.getInt("cnt");
+}
+if(cnt==1)
+{
+sct.setAttribute("username", username);
+RequestDispatcher disp = sct.getRequestDispatcher("/AdminAccount");
+disp.forward(request, response);
+}
+else
+{
+out.write("sorry!.... incorrect credentials");
+out.write("again enter the username and password");
+}
+}
+}
+catch (SQLException e) {
+// TODO Auto-generated catch block
+e.printStackTrace();
+}
+}
+}
